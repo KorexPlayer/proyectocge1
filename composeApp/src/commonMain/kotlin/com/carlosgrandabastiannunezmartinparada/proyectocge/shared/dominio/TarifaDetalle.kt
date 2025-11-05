@@ -1,10 +1,10 @@
 package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio
 
 class TarifaDetalle(
-    public var kwh: Double,
-    public var subtotal: Double,
-    public var cargos: Double,
-    public var iva: Double,
-    public var total: Double
+    var kwh: Double,
+    var subtotal: Double,
+    var cargos: Double,
+    var iva: Double,
+    var total: Double
 ) {
 }

@@ -1,8 +1,15 @@
 package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio
 
 class Date(
-    public val year: Int,
-    public val month: Int,
-    public val day: Int,
+    private var anio: Int,
+    private var mes: Int,
+    private var dia: Int,
 ) {
+    //Getters y Setters
+    fun anioGet(): Int = anio
+    fun mesGet(): Int = mes
+    fun diaGet(): Int = dia
+    fun anioSet(nuevoAnio: Int) { anio = nuevoAnio }
+    fun mesSet(nuevoMes: Int) { mes = nuevoMes }
+    fun diaSet(nuevoDia: Int) { dia = nuevoDia }
 }

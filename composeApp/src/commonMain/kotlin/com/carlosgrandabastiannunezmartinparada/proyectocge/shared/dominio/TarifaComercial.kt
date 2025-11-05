@@ -1,17 +1,35 @@
 package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio
 
 class TarifaComercial(
-    private val cargoFijo: Double,
-    private val precioKwh: Double,
-    private val recargoComercial: Double,
-    private val iva: Double
+    private var cargoFijo: Double,
+    private var precioKwh: Double,
+    private var recargoComercial: Double,
+    private var iva: Double
 ) : Tarifa {
+    //Getters y Setters
+    fun getCargoFijo(): Double = cargoFijo
+    fun getPrecioKwh(): Double = precioKwh
+    fun getRecargoComercial(): Double = recargoComercial
+    fun getIva(): Double = iva
+    fun setCargoFijo(nuevoCargoFijo: Double) {cargoFijo = nuevoCargoFijo }
+    fun setPrecioKwh(nuevoPrecioKwh: Double) { precioKwh = nuevoPrecioKwh }
+    fun setRecargoComercial(nuevoRecargoComercial: Double) {recargoComercial = nuevoRecargoComercial }
+    fun setIva(nuevoIva: Double) {iva = nuevoIva }
+    //Getters y Setters
     override fun nombre(): String {
-        TODO("Not yet implemented")
+        return "Tarifa Comercial"
     }
 
     override fun calcular(kwh: Double): TarifaDetalle {
-        TODO("Not yet implemented")
+        val cargo = getCargoFijo()
+        val preKwhl = getPrecioKwh()
+        val recComl = getRecargoComercial()
+        val ival = getIva()
+        val cargos = cargo + recComl
+        val total = cargos + ( preKwhl * kwh)
+        val ivatotal = total * ival
+        val totalmasiva = total + ivatotal
+        return TarifaDetalle(kwh, total, cargos, ivatotal, totalmasiva)
     }
 
 }

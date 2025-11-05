@@ -8,7 +8,7 @@ class MedidorMonofasico(
     direccionSuministro: String,
     activo: Boolean,
     cliente: Cliente,
-    private val potenciaMaxKw: Double
+    private var potenciaMaxKw: Double
 ) : Medidor(
     id = id,
     createdAt = createdAt,
@@ -16,9 +16,13 @@ class MedidorMonofasico(
     codigo = codigo,
     direccionSuministro = direccionSuministro,
     activo = activo,
-    cliente = cliente
+    cliente = cliente,
 ){
-    override public fun tipo(): String {
-        return ""
+    // Getters y Setters
+    fun getPotenciaMaxKw(): Double = potenciaMaxKw
+    fun setPotenciaMaxKw(nuevaPotenciaMaxKw: Double) {potenciaMaxKw = nuevaPotenciaMaxKw}
+    // Getters y Setters
+    override fun tipo(): String {
+        return "Medidor Monofasico"
     }
 }

@@ -1,8 +1,9 @@
 package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.servicios
 
-class PdfService {
-    public fun generarBoletasPDF(boletas: List<Boleta>, clientes: Map<String,Cliente>): ByteArray {
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Boleta
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Cliente
 
-        return boletas.map {}
+class PdfService {
+    public fun generarBoletasPDF(boletas: List<Boleta>, clientes: Map<String, Cliente>) {
     }
 }
