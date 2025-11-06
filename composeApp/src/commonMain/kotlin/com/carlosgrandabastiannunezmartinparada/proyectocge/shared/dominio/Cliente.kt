@@ -5,7 +5,8 @@ class Cliente(
     nombre: String,
     email: String,
     private var direccionFacturacion: String,
-    private var estado: EstadoCliente
+    private var estado: EstadoCliente,
+    private var tipoLugar: String
 ) : Persona (
     rut = rut,
     nombre = nombre,
@@ -14,8 +15,10 @@ class Cliente(
     //Getters y Setters
     fun getDireccionFacturacion(): String = direccionFacturacion
     fun getEstado(): EstadoCliente = estado
+    fun getTipoLugar(): String = tipoLugar
     fun setDireccionFacturacion(nuevaDireccionFacturacion: String) {direccionFacturacion = nuevaDireccionFacturacion}
     fun setEstado(nuevoEstado: EstadoCliente) {estado = nuevoEstado}
+    fun setTipoLugar(nuevolugar: String) {tipoLugar = nuevolugar}
     //Getters y Setters
     //Agregacion de Boleta
     private val listadoBoletas: MutableList<Boleta> = mutableListOf()
@@ -33,6 +36,12 @@ class Cliente(
     fun listarBoletas() {
         println("Se realizara una lista de Boletas.")
         listadoBoletas.forEach {println(it.toString())}
+    }
+    fun listadoBoletas(): List<Boleta> {
+        return listadoBoletas
+    }
+    fun ultimaBoleta(): Boleta {
+        return listadoBoletas.last()
     }
     //Agregacion de Boleta
     //Agregacion de Medidor
@@ -52,11 +61,16 @@ class Cliente(
         println("Se realizara una lista de Medidores.")
         listadoMedidores.forEach {println(it.toString())}
     }
+    fun devolverMedidor(): Medidor? {
+        val medidore = listadoMedidores.last()
+        return medidore
 
+    }
+    //Agregacion de Medidor
     override fun toString(): String {
         return "Cliente(rut = ${getRut()}, nombre = ${getNombre()}, email = ${getEmail()}, direccionFacturacion='$direccionFacturacion', estado=$estado, listadoBoletas=$listadoBoletas, listadoMedidores=$listadoMedidores)"
     }
-    //Agregacion de Medidor
+
 
 
 }

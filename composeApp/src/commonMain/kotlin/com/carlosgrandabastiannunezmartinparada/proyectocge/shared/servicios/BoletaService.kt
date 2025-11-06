@@ -1,6 +1,9 @@
 package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.servicios
 
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Boleta
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Cliente
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Date
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.EstadoBoleta
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.BoletaRepositorio
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.ClienteRepositorio
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.LecturaRepositorio
@@ -13,13 +16,33 @@ class BoletaService(
     private var boletas: BoletaRepositorio,
     private var tarifas: TarifaService
 ) {
-    public fun emitirBoletaMensual(rutCliente: String, anio: Int, mes: Int): Boleta {
-        TODO("No se ha implementado")
+    fun emitirBoletaMensual(rutCliente: String, anio: Int, mes: Int): Boleta {
+        val boletaId = "A0000"
+        val creadoDia = Date(anio, mes, 10)
+        val actualizadoDia = Date(anio, mes, 10)
+        val clienteBoleta: Cliente = clientes.obtenerPorRut(rutCliente)!!
+        val idCliente = "0000"
+        val nuevoKWhTotal = calcularKwhClienteMes(rutCliente, anio, mes)
+        val nuevoKWhLeidos = clientes.obtenerPorRut(rutCliente)?.devolverMedidor()?.ultimaLecturaConsumo()?.getKwhLeidos()!!
+        val nuevoDetalle = TarifaService().tarifaPara(clienteBoleta).calcular(nuevoKWhLeidos)
+        val estado = EstadoBoleta.EMITIDA
+
+        val boletaMensual = Boleta(boletaId, creadoDia,
+            actualizadoDia, clienteBoleta, idCliente,
+            anio, mes, nuevoKWhTotal, nuevoDetalle, estado)
+
+        return boletaMensual
     }
-    public fun calcularKwhClienteMes(rutCliente: String, anio: Int, mes: Int): Double {
-        return 0.0
+    fun calcularKwhClienteMes(rutCliente: String, anio: Int, mes: Int): Double {
+        val anteriorKWhTotal = clientes.obtenerPorRut(rutCliente)?.ultimaBoleta()?.getKwhTotal()!!
+        val nuevoKWhLeidos = clientes.obtenerPorRut(rutCliente)?.devolverMedidor()?.ultimaLecturaConsumo()?.getKwhLeidos()!!
+        val nuevoKWhTotal = nuevoKWhLeidos - anteriorKWhTotal
+        return nuevoKWhTotal
     }
-    public fun exportarPdfClienteMes(rutCliente: String, anio: Int, mes: Int, pdf: PdfService): ByteArray {
-        TODO("No se ha implementado")
+    fun exportarPdfClienteMes(rutCliente: String, anio: Int, mes: Int, pdf: PdfService): ByteArray {
+        val listaBoletas = clientes.obtenerPorRut(rutCliente)?.listadoBoletas()!!
+        val cliente: Cliente = clientes.obtenerPorRut(rutCliente)!!
+        val clientes: Map<String, Cliente> = mapOf(rutCliente to cliente)
+        return pdf.generarBoletasPDF(listaBoletas, clientes)
     }
 }

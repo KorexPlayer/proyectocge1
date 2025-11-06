@@ -39,7 +39,16 @@ class Boleta(
 
 
     override fun toPdfString(): PdfTable {
-        TODO("Not yet implemented")
+        val headers = listOf("Datos", "Valor")
+        val rows = listOf(
+            listOf("Cliente ID", getIdCliente()),
+            listOf("Periodo", "${getMes()}/${getAnio()}"),
+            listOf("Consumo (kWh)", getKwhTotal().toString()),
+            listOf("Subtotal", "${getDetalle().subtotal}"),
+            listOf("Cargos", "${getDetalle().cargos}"),
+            listOf("IVA (19%)", "${getDetalle().iva}"),
+            listOf("Total a pagar: ", "${getDetalle().total}"))
+        return PdfTable(headers, rows)
     }
 
     override fun toString(): String {

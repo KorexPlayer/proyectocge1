@@ -1,9 +1,9 @@
 package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio
 
 class TarifaResidencial(
-    private  var cargoFijo: Double,
-    private var precioKwh: Double,
-    private var iva: Double
+    private  var cargoFijo: Double = 1200.0,
+    private var precioKwh: Double = 150.0,
+    private var iva: Double = 0.19
 ) : Tarifa{
     //Getters y Setters
     fun getCargoFijo(): Double = cargoFijo
@@ -18,13 +18,11 @@ class TarifaResidencial(
     }
 
     override fun calcular(kwh: Double): TarifaDetalle {
-        val cargo = getCargoFijo()
-        val preKwhl = getPrecioKwh()
-        val ival = getIva()
-        val total = cargo + ( preKwhl * kwh)
-        val ivatotal = total * ival
-        val totalmasiva = total + ivatotal
-        return TarifaDetalle(kwh, total, cargo, ivatotal, totalmasiva)
+        val subtotal = kwh * getPrecioKwh()
+        val cargos = getCargoFijo()
+        val ivaMonto = (subtotal + cargos) * getIva()
+        val total = subtotal + cargos + ivaMonto
+        return TarifaDetalle(kwh, subtotal, cargos, ivaMonto, total)
 
     }
 }

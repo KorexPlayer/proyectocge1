@@ -30,6 +30,9 @@ abstract class Medidor(
         println("Se realizara una lista de las lecturas actuales")
         lecturaConsumo.forEach { println(it.toString())}
     }
+    fun ultimaLecturaConsumo(): LecturaConsumo {
+        return lecturaConsumo.last()
+    }
     //Agregacion de lecturaConsumo
     //Getters y Setters
     fun getCodigo():String = codigo

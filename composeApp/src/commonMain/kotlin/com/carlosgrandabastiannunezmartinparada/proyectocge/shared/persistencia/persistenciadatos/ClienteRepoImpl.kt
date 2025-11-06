@@ -2,44 +2,70 @@ package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia
 
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Cliente
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.ClienteRepositorio
-
+import kotlinx.serialization.encodeToString
 class ClienteRepoImpl(
-    private val persistenciaDato: PersistenciaDato
+    private var persistenciaDato: PersistenciaDato
 ) : ClienteRepositorio {
     val repositorio: MutableList<Cliente> = mutableListOf()
-    fun agregar(c: Cliente){
-        repositorio.add(c)
-        println("Se ha ingresado correctamente el cliente al repositorio.")
-    }
-    fun eliminar(c: Cliente){
-        if(repositorio.remove(c)) {
-            println("Se ha eliminado correctamente al cliente del repositorio.")
-        }
-    }
-    fun listado() {
-        println("Se recorrera el repositorio.")
-        repositorio.forEach{println(it.toString())}
-    }
 
     override fun crear(c: Cliente): Cliente {
-        TODO("Not yet implemented")
-
+        for (cliente in repositorio) {
+            if (cliente.getRut() == c.getRut()) {
+                println("Ya existe cliente con ese rut")
+                return cliente
+            }
+        }
+        repositorio.add(c)
+        println("Cliente creado correctamente")
+        return c
     }
 
     override fun actualizar(c: Cliente): Cliente {
-        TODO("Not yet implemented")
+        for (i in repositorio.indices) {
+            if (repositorio[i].getRut() == c.getRut()) {
+                repositorio[i] = c
+                println("Cliente actualizado correctamente")
+                return c
+            }
+        }
+        println("No se encontro el cliente")
+        return c
     }
 
     override fun eliminar(rut: String): Boolean {
-        TODO("Not yet implemented")
+        for (cliente in repositorio) {
+            if (cliente.getRut() == rut) {
+                repositorio.remove(cliente)
+                println("Se ha eliminado el Cliente del repositorio.")
+                return true
+            }
+        }
+        return false
     }
 
     override fun obtenerPorRut(rut: String): Cliente? {
-        TODO("Not yet implemented")
+        for (cliente in repositorio) {
+            if (cliente.getRut() == rut) {
+                println("Cliente encontrado: ${cliente.getNombre()}")
+                return cliente
+            }
+        }
+        println("No se encontro el cliente")
+        return null
     }
 
     override fun listar(filtro: String): List<Cliente> {
-        TODO("Not yet implemented")
-    }
+        val listaFiltrada: MutableList<Cliente> = mutableListOf()
 
+        if (filtro.isBlank()) {
+            return emptyList()
+        }
+
+        val filtroMinusculas = filtro.lowercase()
+
+        return repositorio.filter { cliente ->
+            cliente.getRut().lowercase().contains(filtroMinusculas) ||
+                    cliente.getNombre().lowercase().contains(filtroMinusculas)
+        }
+    }
 }
