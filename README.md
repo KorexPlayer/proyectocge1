@@ -1,29 +1,9 @@
-Archivos que en teoria han sido completados
-(De haber terminado otro archivo agregar a esta lista)
-- Date
-- EntidadBase
-- Medidor
-- LecturaConsumo
-- MedidorMonofasico
-- MedidorTrifasico
-- EstadoCliente
-- EstadoBoleta
-- Persona
-- Operador
-- Boleta
-- TarifaDetalle
-- TarifaComercial
-- TarifaResidencial
-- TarifaService
-- PdfTable
-- PersistenciaDato
-- BoletaService
-- PdfService (Habria que editarlo para que use alguna biblioteca mas compleja para que cree el pdf)
-- Paginas
-- - paginalistarlectura
-- - paginanuevalectura
-Las siguientes clases fueron hechas usando un repositorio interno en la clase ams no con el persistencia datos
-- - BoletaRepoImpl
-- - ClienteRepoImpl
-- - LecturaRepoImpl
-- - MedidorRepoImpl
+# Proyecto CGE
+
+**Integrantes:** Carlos Granda, Bastian Nuñez y Martin Parada
+**Asignatura:** Programacion Avanzada
+**Profesor(es):** Ruber Hernandez y Pablo Vilches
+
+---
+
+En este proyecto el desafio que se nos fue planteado fue la de realizar un programa usando un Diagrama UML y Requisitos Tecnicos, usando el Paradigma de Programacion Orientado a Objetos, con esto hemos podido resolver el 75% del problema creando soluciones en distintas clases manejando datos, Teniendo una interfaz Propuesta no funcional, que con las clases anteriormente mencionadas le daremos funcionalidad requerida al programa.
