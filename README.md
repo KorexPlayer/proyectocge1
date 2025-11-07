@@ -1,7 +1,7 @@
 # Proyecto CGE
 
-**Integrantes:** Carlos Granda, Bastian Nuñez y Martin Parada
-**Asignatura:** Programacion Avanzada
+**Integrantes:** Carlos Granda, Bastian Nuñez y Martin Parada <br>
+**Asignatura:** Programacion Avanzada <br>
 **Profesor(es):** Ruber Hernandez y Pablo Vilches
 
 ---
