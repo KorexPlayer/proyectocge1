@@ -35,10 +35,8 @@ class Boleta(
     fun setEstado(nuevoEstado: EstadoBoleta){ estado = nuevoEstado }
     //Getters y Setters
 
-
-
-
     override fun toPdfString(): PdfTable {
+        // Implementacion del toPdfString entregando una cabecera con dos valores y columnas que tendran los datos para agregar a este
         val headers = listOf("Datos", "Valor")
         val rows = listOf(
             listOf("Cliente ID", getIdCliente()),
@@ -52,6 +50,7 @@ class Boleta(
     }
 
     override fun toString(): String {
+        // toString para devolver los datos que contiene la boleta.
         return "Boleta(cliente=$cliente, idCliente='$idCliente', anio=$anio, mes=$mes, kwhTotal=$kwhTotal, detalle=$detalle, estado=$estado)"
     }
 

@@ -6,7 +6,7 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.StorageDriver
 
 class PantallaLectura(persistenciaDato: PersistenciaDato) {
-    private val repositorio : LecturaRepositorio = LecturaRepoImpl(persistenciaDato)
+    private val repositorio : MutableList<LecturaRepoImpl> = mutableListOf()
 
     fun agregar() {
 

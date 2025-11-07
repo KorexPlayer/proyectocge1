@@ -19,7 +19,9 @@ Archivos que en teoria han sido completados
 - PersistenciaDato
 - BoletaService
 - PdfService (Habria que editarlo para que use alguna biblioteca mas compleja para que cree el pdf)
-
+- Paginas
+- - paginalistarlectura
+- - paginanuevalectura
 Las siguientes clases fueron hechas usando un repositorio interno en la clase ams no con el persistencia datos
 - - BoletaRepoImpl
 - - ClienteRepoImpl
