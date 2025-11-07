@@ -1,4 +1,20 @@
 package com.carlosgrandabastiannunezmartinparada.proyectocge.ui
 
-class PantallaLectura {
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.LecturaRepoImpl
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.PersistenciaDato
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.LecturaRepositorio
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.StorageDriver
+
+class PantallaLectura(persistenciaDato: PersistenciaDato) {
+    private val repositorio : LecturaRepositorio = LecturaRepoImpl(persistenciaDato)
+
+    fun agregar() {
+
+    }
+
+    fun revisar() {
+
+    }
+
+
 }

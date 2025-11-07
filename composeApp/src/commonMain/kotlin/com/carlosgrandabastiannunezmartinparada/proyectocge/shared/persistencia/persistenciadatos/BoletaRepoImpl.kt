@@ -6,7 +6,7 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.
 
 
 
-class BoletaRepoImpl(private var persistenciaDato: PersistenciaDato) : BoletaRepositorio {
+object BoletaRepoImpl : BoletaRepositorio {
     private val repositorio: MutableList<Boleta> = mutableListOf()
     override fun guardar(b: Boleta): Boleta {
         repositorio.add(b)

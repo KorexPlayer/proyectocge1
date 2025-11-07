@@ -3,9 +3,7 @@ package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.LecturaConsumo
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.LecturaRepositorio
 
-class LecturaRepoImpl (
-   private val persistenciaDato: PersistenciaDato
-) : LecturaRepositorio{
+object LecturaRepoImpl : LecturaRepositorio{
 
     private val repositorio: MutableList<LecturaConsumo> = mutableListOf()
 

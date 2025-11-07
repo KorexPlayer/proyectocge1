@@ -2,10 +2,8 @@ package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia
 
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Cliente
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.ClienteRepositorio
-import kotlinx.serialization.encodeToString
-class ClienteRepoImpl(
-    private var persistenciaDato: PersistenciaDato
-) : ClienteRepositorio {
+
+object ClienteRepoImpl : ClienteRepositorio {
     val repositorio: MutableList<Cliente> = mutableListOf()
 
     override fun crear(c: Cliente): Cliente {

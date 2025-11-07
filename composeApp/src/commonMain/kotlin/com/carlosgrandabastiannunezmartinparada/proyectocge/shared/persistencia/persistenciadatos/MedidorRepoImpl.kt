@@ -3,9 +3,7 @@ package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Medidor
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.MedidorRepositorio
 
-class MedidorRepoImpl(
-    private val persistenciaDato: PersistenciaDato
-) : MedidorRepositorio {
+object MedidorRepoImpl : MedidorRepositorio {
 
     private val repositorio: MutableList<Medidor> = mutableListOf()
 
