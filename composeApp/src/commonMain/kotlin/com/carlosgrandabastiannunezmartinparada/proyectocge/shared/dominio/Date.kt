@@ -13,5 +13,8 @@ class Date(
     fun mesSet(nuevoMes: Int) { mes = nuevoMes }
     fun diaSet(nuevoDia: Int) { dia = nuevoDia }
     //Getters y Setters
-    //Clase implementada para guardar datos de anio mes y dia para los atributos createdAt y updatedAt
+    //Clase implementada para guardar datos de anio mes y día para los atributos createdAt y updatedAt
+    override fun toString(): String {
+        return "Dia: ${diaGet()}, Mes: ${mesGet()}, Año: ${anioGet()}"
+    }
 }

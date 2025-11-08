@@ -14,16 +14,14 @@ fun campoTextField(
     label : String,
     value : String,
     onChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier1: Modifier = Modifier
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onChange,
         label = { Text(label) },
         singleLine = true,
-        modifier = Modifier
-            .then(Modifier)
-            .fillMaxWidth()
+        modifier = modifier1
     )
     Spacer(modifier = Modifier.height(8.dp))
 }

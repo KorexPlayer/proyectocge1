@@ -6,9 +6,7 @@ import androidx.compose.ui.window.application
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "proyectocge",
-
-
+        title = "Proyecto CGE by Carlos Granda, Bastian Nuñez y Martin Parada"
     ) {
         App()
     }
