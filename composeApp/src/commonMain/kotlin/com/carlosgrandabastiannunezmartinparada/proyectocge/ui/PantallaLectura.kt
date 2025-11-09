@@ -98,7 +98,7 @@ private fun pantallaNuevaLectura(repositorioLecturas: LecturaRepoImpl) {
         campoTextField("Kw/h Leidos (Solo Numeros)", kwhLeidos, onChange = { kwhLeidos = it }, modifier1 = Modifier.width(800.dp))
         //Colocar como cajitas con row.
         Box {
-            Row (modifier = Modifier.width(800.dp).height(50.dp),
+            Row (modifier = Modifier.width(800.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically) {
                 campoTextField("Año Creado (Solo Numeros)", createdAtAnio, onChange = {createdAtAnio = it}, modifier1 = Modifier.weight(1f).fillMaxWidth())
