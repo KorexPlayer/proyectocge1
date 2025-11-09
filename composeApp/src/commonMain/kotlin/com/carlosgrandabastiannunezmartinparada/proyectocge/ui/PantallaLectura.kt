@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -86,7 +88,8 @@ private fun pantallaNuevaLectura(repositorioLecturas: LecturaRepoImpl) {
     var updatedAtMes by remember { mutableStateOf("") } // Date
     var updatedAtDia by remember { mutableStateOf("") } // Date
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+    val scrollState = rememberScrollState()
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth().verticalScroll(scrollState)) {
         Text("Registrar nueva lectura", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
         campoTextField("ID", id, onChange = { id = it }, modifier1 = Modifier.width(800.dp))
         campoTextField("ID del Medidor", idMedidor, onChange = { idMedidor = it }, modifier1 = Modifier.width(800.dp))

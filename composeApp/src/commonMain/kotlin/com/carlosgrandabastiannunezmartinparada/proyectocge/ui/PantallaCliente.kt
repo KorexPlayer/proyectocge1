@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -89,8 +91,8 @@ private fun paginaAgregarClientes(repositorioClientes: ClienteRepoImpl) {
     var tipoLugar by remember { mutableStateOf("") }
     var tipoExpandido by remember { mutableStateOf(false) }
     val tipos = listOf("Residencial", "Comercial")
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+    val scrollState = rememberScrollState()
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth().verticalScroll(scrollState)) {
             Text("Agregar Cliente", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
             campoTextField("RUT", rut, onChange = { rut = it }, modifier1 = Modifier.width(800.dp))
             campoTextField("Nombre", nombre, onChange = { nombre = it }, modifier1 = Modifier.width(800.dp))
