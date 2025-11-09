@@ -17,7 +17,7 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Estad
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun cajaDespegable(estadoentregado: Boolean, valorEntregado: String, label: String, listado: List<String>, modifier1: Modifier = Modifier){
+fun cajaDespegable(estadoentregado: Boolean, valorEntregado: String, label: String, listado: List<String>, modifier1: Modifier = Modifier): String{
 
     var estado by remember { mutableStateOf(estadoentregado) }
     var valorEntregado by remember { mutableStateOf(valorEntregado) }
@@ -30,7 +30,7 @@ fun cajaDespegable(estadoentregado: Boolean, valorEntregado: String, label: Stri
     ) {
         OutlinedTextField(
             value = valorEntregado,
-            onValueChange = {}, // No se cambia escribiendo
+            onValueChange = {},
             readOnly = true,
             label = { Text(text = label) },
             trailingIcon = {
@@ -38,7 +38,7 @@ fun cajaDespegable(estadoentregado: Boolean, valorEntregado: String, label: Stri
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .menuAnchor() // Importante para anclar el menú
+                .menuAnchor()
         )
         // Menú desplegable
         ExposedDropdownMenu(
@@ -56,4 +56,5 @@ fun cajaDespegable(estadoentregado: Boolean, valorEntregado: String, label: Stri
             }
         }
     }
+    return valorEntregado
 }

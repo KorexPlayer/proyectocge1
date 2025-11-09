@@ -21,7 +21,7 @@ class BoletaService(
         val creadoDia = Date(anio, mes, 10)
         val actualizadoDia = Date(anio, mes, 10)
         val clienteBoleta: Cliente = clientes.obtenerPorRut(rutCliente)!!
-        val idCliente = "0000"
+        val idCliente = rutCliente
         val nuevoKWhTotal = calcularKwhClienteMes(rutCliente, anio, mes)
         val nuevoKWhLeidos = clientes.obtenerPorRut(rutCliente)?.devolverMedidor()?.ultimaLecturaConsumo()?.getKwhLeidos()!!
         val nuevoDetalle = TarifaService().tarifaPara(clienteBoleta).calcular(nuevoKWhLeidos)

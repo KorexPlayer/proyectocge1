@@ -7,7 +7,7 @@ class LecturaConsumo(
     private var idMedidor: String,
     private var anio: Int,
     private var mes: Int,
-    private var kwhLeidos: Double
+    private var kwhLeidos: Double,
 ): EntidadBase(
     id = id,
     createdAt = createdAt,

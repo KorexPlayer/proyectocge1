@@ -11,7 +11,7 @@ plugins {
 kotlin {
     jvm()
 
-    js {
+    js ("web"){
         browser()
         binaries.executable()
     }

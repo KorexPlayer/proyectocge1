@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.carlosgrandabastiannunezmartinparada.proyectocge.componentes.cajaDespegable
 import com.carlosgrandabastiannunezmartinparada.proyectocge.componentes.campoTextField
+import com.carlosgrandabastiannunezmartinparada.proyectocge.componentes.tema.backgroundLight
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Cliente
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.EstadoCliente
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.ClienteRepoImpl
@@ -70,8 +71,6 @@ fun PantallaClientes(repositorioClientes: ClienteRepoImpl) {
             }
         }
     }
-
-
 }
 
 @Composable
@@ -80,12 +79,16 @@ private fun paginaAgregarClientes(repositorioClientes: ClienteRepoImpl) {
     var nombre by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
-    var tipoLugar by remember { mutableStateOf("") }
 
     //Estado del cliente
     var estadoSeleccionado by remember { mutableStateOf("") }
     var estadoExpandido by remember { mutableStateOf(false) }
     val estados = listOf("ACTIVO", "INACTIVO")
+
+    //Tipo de lugar
+    var tipoLugar by remember { mutableStateOf("") }
+    var tipoExpandido by remember { mutableStateOf(false) }
+    val tipos = listOf("Residencial", "Comercial")
 
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
             Text("Agregar Cliente", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
@@ -93,21 +96,36 @@ private fun paginaAgregarClientes(repositorioClientes: ClienteRepoImpl) {
             campoTextField("Nombre", nombre, onChange = { nombre = it }, modifier1 = Modifier.width(800.dp))
             campoTextField("Email", email, onChange = { email = it }, modifier1 = Modifier.width(800.dp))
             campoTextField("Direccion", direccion, onChange = { direccion = it }, modifier1 = Modifier.width(800.dp))
-            cajaDespegable(estadoExpandido, estadoSeleccionado, "Estado", estados, Modifier.width(800.dp))
-            campoTextField("Tipo de Lugar", tipoLugar, onChange = { tipoLugar = it }, modifier1 = Modifier.width(800.dp))
+            val estado = cajaDespegable(estadoExpandido, estadoSeleccionado, "Estado", estados, Modifier.width(800.dp))
+            val tipoLugar1 = cajaDespegable(tipoExpandido, tipoLugar, label = "Tipo de Lugar", tipos, modifier1 = Modifier.width(800.dp))
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Row() {
+                val estadoFinal = if(estado == "ACTIVO"){
+                    EstadoCliente.ACTIVO} else { EstadoCliente.INACTIVO }
+                val tipoFinal = if(tipoLugar1 == "Residencial"){
+                    "Residencial" } else { "Comercial" }
                 Button(onClick = {
-                    val estadoFinal = if(estadoSeleccionado == "ACTIVO"){
-                        EstadoCliente.ACTIVO} else { EstadoCliente.INACTIVO }
-                    repositorioClientes.crear(Cliente(rut, nombre, email, direccion, estadoFinal, tipoLugar))
+                    repositorioClientes.crear(Cliente(rut, nombre, email, direccion, estadoFinal, tipoFinal))
+                    rut = ""
+                    nombre = ""
+                    email = ""
+                    direccion = ""
+                    tipoLugar = ""
+                    estadoSeleccionado = ""
+
+                }) {
+                    Text("Guardar Cliente")
+                }
+                Spacer(modifier = Modifier.size(10.dp))
+                Button(onClick = {
+                    repositorioClientes.actualizar(Cliente(rut, nombre, email, direccion, estadoFinal, tipoFinal))
                     rut = ""
                     nombre = ""
                     email = ""
                     direccion = ""
                     tipoLugar = ""
                     estadoSeleccionado = ""}) {
-                    Text("Guardar Cliente")
+                    Text("Sobreescribir Cliente")
                 }
             }
         }
@@ -124,28 +142,28 @@ private fun paginaListarClientes(repositorioClientes: ClienteRepoImpl) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically)
         {
-            campoTextField("Filtro", filtro, onChange = { filtro = it }, Modifier.weight(1f))
+            campoTextField("Filtro (Por RUT o Nombre)", filtro, onChange = { filtro = it }, Modifier.weight(1f))
         }
         Spacer(Modifier.width(8.dp))
         Row(modifier = Modifier.width(1280.dp)){
-            Text("RUT", modifier = Modifier.weight(1f))
-            Text("Nombre", modifier = Modifier.weight(1f))
-            Text("Email", modifier = Modifier.weight(1f))
-            Text("Direccion", modifier = Modifier.weight(1f))
-            Text("Estado", modifier = Modifier.weight(1f))
-            Text("Tipo de Lugar", modifier = Modifier.weight(1f))
+            Text("RUT", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+            Text("Nombre", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+            Text("Email", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+            Text("Direccion", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+            Text("Estado", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+            Text("Tipo de Lugar", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
         }
         Spacer(Modifier.width(8.dp))
         val repositorioClient = repositorioClientes.listar(filtro)
         LazyColumn() {
             items(repositorioClient) { c ->
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(c.getRut(), modifier = Modifier.weight(1f))
-                    Text(c.getNombre(), modifier = Modifier.weight(1f))
-                    Text(c.getEmail(), modifier = Modifier.weight(1f))
-                    Text(c.getDireccionFacturacion(), modifier = Modifier.weight(1f))
-                    Text(c.getEstado().toString(), modifier = Modifier.weight(1f))
-                    Text(c.getTipoLugar(), modifier = Modifier.weight(1f))
+                Row(modifier = Modifier.width(1280.dp)) {
+                    Text(c.getRut(), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                    Text(c.getNombre(), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                    Text(c.getEmail(), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                    Text(c.getDireccionFacturacion(), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                    Text(c.getEstado().toString(), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                    Text(c.getTipoLugar(), modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
                 }
                 Spacer(Modifier.width(2.dp))
             }
