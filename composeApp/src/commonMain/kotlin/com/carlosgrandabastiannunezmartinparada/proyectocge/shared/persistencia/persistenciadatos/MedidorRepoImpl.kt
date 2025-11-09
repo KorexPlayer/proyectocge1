@@ -48,6 +48,7 @@ object MedidorRepoImpl : MedidorRepositorio {
                     "$DELIMITADOR${m.getActivo()}" +
                     "$DELIMITADOR${m.getCliente().getRut()}" +
                     "$DELIMITADOR${m.getPotenciaMaxKw()}"
+            return mono
         } else if(m is MedidorTrifasico){
             val mono: String = m.id +
                     "$DELIMITADOR${m.createdAt.diaGet()}" +
@@ -62,6 +63,7 @@ object MedidorRepoImpl : MedidorRepositorio {
                     "$DELIMITADOR${m.getCliente().getRut()}" +
                     "$DELIMITADOR${m.getPotenciaMaxKw()}" +
                     "$DELIMITADOR${m.getFactorPotencia()}"
+            return mono
         }
         return mono
     }
