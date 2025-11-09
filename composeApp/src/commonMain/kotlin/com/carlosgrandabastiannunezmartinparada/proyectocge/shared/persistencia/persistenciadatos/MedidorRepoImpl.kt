@@ -48,6 +48,7 @@ object MedidorRepoImpl : MedidorRepositorio {
                     "$DELIMITADOR${m.getActivo()}" +
                     "$DELIMITADOR${m.getCliente().getRut()}" +
                     "$DELIMITADOR${m.getPotenciaMaxKw()}"
+            return mono
         } else if(m is MedidorTrifasico){
             val mono: String = m.id +
                     "$DELIMITADOR${m.createdAt.diaGet()}" +
@@ -62,6 +63,7 @@ object MedidorRepoImpl : MedidorRepositorio {
                     "$DELIMITADOR${m.getCliente().getRut()}" +
                     "$DELIMITADOR${m.getPotenciaMaxKw()}" +
                     "$DELIMITADOR${m.getFactorPotencia()}"
+            return mono
         }
         return mono
     }
@@ -165,25 +167,30 @@ object MedidorRepoImpl : MedidorRepositorio {
     }
 
     override fun listarPorCliente(rut: String): List<Medidor> {
-        val listaFiltrada: MutableList<Medidor> = mutableListOf()
-
-        for (medidor in repositorio) {
-            if (medidor.getCliente().getRut() == rut){
-                listaFiltrada.add(medidor)
-            }
+        if (rut.isBlank()) {
+            return repositorio.toList()
         }
-        return listaFiltrada
+
+        return repositorio.filter {
+            it.getCliente().getRut().contains(rut, ignoreCase = true)
+        }
     }
 
     override fun obtenerPorCodigo(codigo: String): Medidor? {
-        for (medidor in repositorio){
-            if (medidor.getCodigo() == codigo){
-                println("Medidor encontrado")
-                return medidor
-            }
+        if (codigo.isBlank()) {
+            return null
         }
-        println("No se encontro el medidor")
-        return null
+
+        val medidorEncontrado = repositorio.find {
+            it.getCodigo().contains(codigo, ignoreCase = true)
+        }
+
+        if (medidorEncontrado != null) {
+            println("Medidor encontrado")
+        } else {
+            println("No se encontro el medidor")
+        }
+        return medidorEncontrado
     }
 
     override fun eliminar(codigo: String): Boolean {
