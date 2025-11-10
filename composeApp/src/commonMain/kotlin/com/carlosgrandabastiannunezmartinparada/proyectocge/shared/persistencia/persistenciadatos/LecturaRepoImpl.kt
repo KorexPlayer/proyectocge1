@@ -8,12 +8,15 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.
 object LecturaRepoImpl : LecturaRepositorio{
 
     private val repositorio: MutableList<LecturaConsumo> = mutableListOf()
+
+    private var repositorioM: MedidorRepoImpl? = null
     private var persistencia: PersistenciaDato? = null
     private const val PREFIJO_KEY = "lecturas_"
     private const val DELIMITADOR = "::"
 
-    fun init(persistencia: PersistenciaDato) {
+    fun init(persistencia: PersistenciaDato, repositorioMedidores: MedidorRepoImpl) {
         this.persistencia = persistencia
+        this.repositorioM = repositorioMedidores
         cargarDatos()
     }
 
@@ -68,6 +71,7 @@ object LecturaRepoImpl : LecturaRepositorio{
 
     override fun registrar(l: LecturaConsumo): LecturaConsumo {
         repositorio.add(l)
+        repositorioM?.obtenerPorCodigo(l.getIdMedidor())?.agregarLecturaConsumo(l)
         println("Se ha registrado la nueva lectura")
         persistencia?.let { p ->
             // Creamos una key única simple usando el tiempo

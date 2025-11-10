@@ -14,7 +14,7 @@ fun main() {
     val persistencia = PersistenciaDato(driver)
 
     ClienteRepoImpl.init(persistencia)
-    LecturaRepoImpl.init(persistencia)
+    LecturaRepoImpl.init(persistencia, MedidorRepoImpl)
     MedidorRepoImpl.init(persistencia, ClienteRepoImpl)
     BoletaRepoImpl.init(persistencia, ClienteRepoImpl)
 

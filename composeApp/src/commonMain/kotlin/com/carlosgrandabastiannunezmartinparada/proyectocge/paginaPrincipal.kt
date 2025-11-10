@@ -31,6 +31,11 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.componentes.tema.lig
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.ClienteRepoImpl
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.LecturaRepoImpl
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.MedidorRepoImpl
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.BoletaRepoImpl
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.servicios.BoletaService
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.servicios.TarifaService
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.servicios.PdfService
+import com.carlosgrandabastiannunezmartinparada.proyectocge.ui.PantallaBoleta
 import com.carlosgrandabastiannunezmartinparada.proyectocge.ui.PantallaClientes
 import com.carlosgrandabastiannunezmartinparada.proyectocge.ui.PantallaLectura
 import com.carlosgrandabastiannunezmartinparada.proyectocge.ui.PantallaMedidor
@@ -41,6 +46,10 @@ fun paginaPrincipal() {
     val repositorioClientes = ClienteRepoImpl
     val repositorioLecturas = LecturaRepoImpl
     val repositorioMedidores = MedidorRepoImpl
+    val repositorioBoletas = BoletaRepoImpl
+    val tarifaService = TarifaService()
+    val pdfService = PdfService()
+    val boletaService = BoletaService(repositorioClientes, repositorioMedidores, repositorioLecturas, repositorioBoletas, tarifaService)
     var selected by remember { mutableStateOf(0) }
     val options = listOf("Clientes", "Boletas", "Lecturas", "Medidores")
     var checked by remember { mutableStateOf(true) }
@@ -78,7 +87,7 @@ fun paginaPrincipal() {
                             }
 
                             1 -> {
-                                //PantallaBoleta(repositorioBoletas)
+                                PantallaBoleta(boletaService,pdfService)
                             }
 
                             2 -> {
