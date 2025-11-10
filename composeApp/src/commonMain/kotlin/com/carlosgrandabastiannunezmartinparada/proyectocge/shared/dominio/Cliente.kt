@@ -37,7 +37,7 @@ class Cliente(
         println("Se realizara una lista de Boletas.")
         listadoBoletas.forEach {println(it.toString())}
     }
-    fun listadoBoletas(): List<Boleta> {
+    fun listadeBoletas(): List<Boleta> {
         return listadoBoletas
     }
     fun ultimaBoleta(): Boleta {

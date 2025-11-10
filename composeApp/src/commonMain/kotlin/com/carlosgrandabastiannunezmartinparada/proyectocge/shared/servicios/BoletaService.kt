@@ -40,7 +40,7 @@ class BoletaService(
         return nuevoKWhTotal
     }
     fun exportarPdfClienteMes(rutCliente: String, anio: Int, mes: Int, pdf: PdfService): ByteArray {
-        val listaBoletas = clientes.obtenerPorRut(rutCliente)?.listadoBoletas()!!
+        val listaBoletas = clientes.obtenerPorRut(rutCliente)?.listadeBoletas()!!
         val cliente: Cliente = clientes.obtenerPorRut(rutCliente)!!
         val clientes: Map<String, Cliente> = mapOf(rutCliente to cliente)
         return pdf.generarBoletasPDF(listaBoletas, clientes)
