@@ -14,7 +14,7 @@ class BoletaService(
     private var medidores: MedidorRepositorio,
     private var lecturas: LecturaRepositorio,
     private var boletas: BoletaRepositorio,
-    private var tarifas: TarifaService
+    private var tarifas: TarifaService,
 ) {
     fun emitirBoletaMensual(rutCliente: String, anio: Int, mes: Int): Boleta {
         val boletaId = "A0000"
@@ -30,11 +30,12 @@ class BoletaService(
         val boletaMensual = Boleta(boletaId, creadoDia,
             actualizadoDia, clienteBoleta, idCliente,
             anio, mes, nuevoKWhTotal, nuevoDetalle, estado)
+        clienteBoleta.agregarBoleta(boletaMensual)
 
         return boletaMensual
     }
     fun calcularKwhClienteMes(rutCliente: String, anio: Int, mes: Int): Double {
-        val anteriorKWhTotal = clientes.obtenerPorRut(rutCliente)?.ultimaBoleta()?.getKwhTotal()!!
+        val anteriorKWhTotal = clientes.obtenerPorRut(rutCliente)?.ultimaBoleta()?.getKwhTotal()?: 0.0
         val nuevoKWhLeidos = clientes.obtenerPorRut(rutCliente)?.devolverMedidor()?.ultimaLecturaConsumo()?.getKwhLeidos()!!
         val nuevoKWhTotal = nuevoKWhLeidos - anteriorKWhTotal
         return nuevoKWhTotal

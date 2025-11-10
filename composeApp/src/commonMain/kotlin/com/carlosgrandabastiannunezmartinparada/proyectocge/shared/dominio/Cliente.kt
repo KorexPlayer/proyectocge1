@@ -40,8 +40,8 @@ class Cliente(
     fun listadeBoletas(): List<Boleta> {
         return listadoBoletas
     }
-    fun ultimaBoleta(): Boleta {
-        return listadoBoletas.last()
+    fun ultimaBoleta(): Boleta? {
+        return listadoBoletas.lastOrNull()
     }
     //Agregacion de Boleta
     //Agregacion de Medidor
@@ -50,7 +50,7 @@ class Cliente(
         listadoMedidores.add(nuevoMedidor)
         println("Se ha agregado un nuevo Medidor.")
     }
-    fun quitarBoleta(medidor: Medidor): Boolean {
+    fun quitarMedidor(medidor: Medidor): Boolean {
         if(listadoMedidores.remove(medidor)) {
             println("Se ha eliminado un Medidor.")
             return true
@@ -62,7 +62,7 @@ class Cliente(
         listadoMedidores.forEach {println(it.toString())}
     }
     fun devolverMedidor(): Medidor? {
-        val medidore = listadoMedidores.last()
+        val medidore = listadoMedidores.lastOrNull()
         return medidore
 
     }
