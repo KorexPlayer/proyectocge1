@@ -2,13 +2,13 @@ package com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia
 
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Date
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.LecturaConsumo
+import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Medidor
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.LecturaRepositorio
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.MedidorRepositorio
 
 object LecturaRepoImpl : LecturaRepositorio{
 
     private val repositorio: MutableList<LecturaConsumo> = mutableListOf()
-
     private var repositorioM: MedidorRepoImpl? = null
     private var persistencia: PersistenciaDato? = null
     private const val PREFIJO_KEY = "lecturas_"

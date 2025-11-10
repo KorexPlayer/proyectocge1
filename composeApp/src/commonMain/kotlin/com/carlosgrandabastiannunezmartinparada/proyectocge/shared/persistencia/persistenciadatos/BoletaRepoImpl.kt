@@ -108,7 +108,7 @@ object BoletaRepoImpl : BoletaRepositorio {
 
     override fun guardar(b: Boleta): Boleta {
         repositorio.add(b)
-        clienteRepo?.obtenerPorRut(b.getIdCliente())?.agregarBoleta(b)
+        clienteRepo?.obtenerPorRut(b.getCliente().getRut())?.agregarBoleta(b)
         println("Se ha anadido la boleta al repositorio")
         persistencia?.let { p ->
             val key = "$PREFIJO_KEY${b.getCliente().getRut()}_${b.getAnio()}_${b.getMes()}"
