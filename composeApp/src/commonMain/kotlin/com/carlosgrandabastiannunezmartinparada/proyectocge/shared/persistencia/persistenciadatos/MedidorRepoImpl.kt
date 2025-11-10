@@ -155,6 +155,7 @@ object MedidorRepoImpl : MedidorRepositorio {
             }
         }
         repositorio.add(m)
+        clienteRepo?.obtenerPorRut(rutCliente)?.agregarMedidor(m)
         println("Medidor creado correctamente")
 
         persistencia?.let { p ->

@@ -9,6 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Campo text field
+ *
+ * @param label
+ * @param value
+ * @param onChange
+ * @param modifier1
+ * @receiver
+ */
+
 @Composable
 fun campoTextField(
     label : String,
