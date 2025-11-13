@@ -16,6 +16,21 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.*
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.MedidorRepoImpl
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.MedidorRepositorio
 
+/**
+ * Composable principal que actúa como host para la gestión de Medidores.
+ *
+ * Utiliza un [SingleChoiceSegmentedButtonRow] para la navegación interna
+ * entre tres sub-pantallas (páginas):
+ * 1. [paginaAgregarMedidor] (Índice 0)
+ * 2. [paginaRemoverMedidor] (Índice 1)
+ * 3. [paginaListarMedidores] (Índice 2)
+ *
+ * También gestiona un estado de [mensaje] compartido que las sub-pantallas
+ * pueden actualizar para mostrar retroalimentación (éxito o error).
+ *
+ * @param repositorioMedidores La implementación del repositorio de medidores,
+ * que se pasará a las sub-pantallas.
+ */
 @Composable
 fun PantallaMedidor(repositorioMedidores: MedidorRepoImpl) {
     var selected by remember { mutableStateOf(0) }
@@ -79,6 +94,22 @@ fun PantallaMedidor(repositorioMedidores: MedidorRepoImpl) {
     }
 }
 
+/**
+ * Sub-pantalla privada (Composable) que renderiza el formulario para
+ * **agregar** un nuevo [Medidor].
+ *
+ * Gestiona el estado local de todos los campos del formulario, incluyendo
+ * la selección del tipo de medidor ([MedidorMonofasico] o [MedidorTrifasico])
+ * mediante [RadioButton] y [Switch] para el estado (activo/inactivo).
+ *
+ * Realiza la validación de entrada (conversión de tipos) dentro de un bloque
+ * `try-catch` al momento de guardar.
+ *
+ * @param repositorioMedidores La instancia del repositorio para invocar
+ * [MedidorRepositorio.crear].
+ * @param onMensajeChange Un callback lambda para enviar un mensaje de
+ * estado (éxito o error) al Composable padre.
+ */
 @Composable
 private fun paginaAgregarMedidor(
     repositorioMedidores: MedidorRepositorio,
@@ -265,6 +296,18 @@ private fun paginaAgregarMedidor(
     }
 }
 
+/**
+ * Sub-pantalla privada (Composable) que proporciona la interfaz
+ * para **eliminar** un medidor.
+ *
+ * Contiene un [campoTextField] para ingresar el Código del medidor
+ * a eliminar y un [Button] que invoca [MedidorRepositorio.eliminar].
+ *
+ * @param repositorioMedidores La instancia del repositorio para invocar
+ * [MedidorRepositorio.eliminar].
+ * @param onMensajeChange Un callback lambda para enviar un mensaje de
+ * estado (éxito o error) al Composable padre.
+ */
 @Composable
 private fun paginaRemoverMedidor(
     repositorioMedidores: MedidorRepositorio,
@@ -302,6 +345,18 @@ private fun paginaRemoverMedidor(
     }
 }
 
+/**
+ * Sub-pantalla privada (Composable) que muestra una lista de [Medidor].
+ *
+ * Proporciona controles ([RadioButton]) para seleccionar el tipo de filtro
+ * (por "RUT Cliente" o por "Código Medidor").
+ *
+ * Obtiene los datos llamando al [repositorioMedidores]
+ * ([.listarPorCliente] o [.obtenerPorCodigo]) basado en el filtro
+ * seleccionado y los renderiza en un [LazyColumn] con una cabecera.
+ *
+ * @param repositorioMedidores La instancia del repositorio para consultar los medidores.
+ */
 @Composable
 private fun paginaListarMedidores(
     repositorioMedidores: MedidorRepositorio

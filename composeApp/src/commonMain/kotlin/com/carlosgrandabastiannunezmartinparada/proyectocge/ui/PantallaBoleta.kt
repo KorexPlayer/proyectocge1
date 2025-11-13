@@ -16,6 +16,20 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.servicios.Pdf
 import kotlinx.coroutines.launch
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.servicios.guardarPdf
 
+/**
+ * Un Composable que representa la pantalla de "Emisión de Boletas".
+ *
+ * Esta pantalla permite al usuario ingresar un RUT, año y mes para
+ * invocar al [boletaService] y generar una nueva [Boleta].
+ * Gestiona su propio estado para los campos de entrada, el mensaje de
+ * retroalimentación y la boleta generada.
+ *
+ * Muestra los detalles de la boleta generada y ofrece un botón
+ * para exportar un PDF utilizando el [pdfService].
+ *
+ * @param boletaService El servicio que contiene la lógica de negocio para emitir boletas.
+ * @param pdfService El servicio utilizado para generar el archivo PDF.
+ */
 @Composable
 fun PantallaBoleta(
     boletaService: BoletaService,

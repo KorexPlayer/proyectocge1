@@ -37,6 +37,21 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Estad
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.ClienteRepoImpl
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.LecturaRepoImpl
 
+/**
+ * Composable principal que actúa como host para la gestión de Clientes.
+ *
+ * Utiliza un [SingleChoiceSegmentedButtonRow] para la navegación interna
+ * entre tres sub-pantallas (páginas) de funcionalidad:
+ * 1. [paginaAgregarClientes] (Índice 0)
+ * 2. [paginaRemoverClientes] (Índice 1)
+ * 3. [paginaListarClientes] (Índice 2)
+ *
+ * Delega la lógica de negocio (CRUD) a las sub-pantallas,
+ * pasándoles el [repositorioClientes].
+ *
+ * @param repositorioClientes La implementación del repositorio de clientes,
+ * que se pasará a las sub-pantallas.
+ */
 @Composable
 fun PantallaClientes(repositorioClientes: ClienteRepoImpl) {
     var selected by remember { mutableStateOf(0) }
@@ -75,6 +90,19 @@ fun PantallaClientes(repositorioClientes: ClienteRepoImpl) {
     }
 }
 
+/**
+ * Sub-pantalla privada (Composable) que renderiza el formulario para
+ * **agregar** o **actualizar** (sobrescribir) clientes.
+ *
+ * Gestiona el estado local de todos los campos de entrada
+ * (rut, nombre, email, direccion, estado, tipoLugar)
+ * utilizando [remember] y [mutableStateOf].
+ *
+ * Utiliza los componentes [campoTextField] y [cajaDespegable] para la UI.
+ *
+ * @param repositorioClientes La instancia del repositorio para invocar
+ * [ClienteRepoImpl.crear] o [ClienteRepoImpl.actualizar].
+ */
 @Composable
 private fun paginaAgregarClientes(repositorioClientes: ClienteRepoImpl) {
     var rut by remember { mutableStateOf("") }
@@ -134,6 +162,19 @@ private fun paginaAgregarClientes(repositorioClientes: ClienteRepoImpl) {
     }
 }
 
+/**
+ * Sub-pantalla privada (Composable) que muestra una lista de todos los
+ * clientes en el [repositorioClientes].
+ *
+ * Incluye un [campoTextField] en la parte superior que actúa como filtro
+ * (pasado a [ClienteRepoImpl.listar]).
+ *
+ * La lista de clientes se obtiene en cada recomposición (basado en el [filtro])
+ * y se renderiza mediante un [LazyColumn].
+ *
+ * @param repositorioClientes La instancia del repositorio para invocar
+ * [ClienteRepoImpl.listar].
+ */
 @Composable
 private fun paginaListarClientes(repositorioClientes: ClienteRepoImpl) {
     var filtro by remember { mutableStateOf("") }
@@ -175,6 +216,16 @@ private fun paginaListarClientes(repositorioClientes: ClienteRepoImpl) {
     }
 }
 
+/**
+ * Sub-pantalla privada (Composable) que proporciona la interfaz
+ * para **eliminar** un cliente.
+ *
+ * Contiene un [campoTextField] para ingresar el RUT del cliente
+ * a eliminar y un [Button] que invoca [ClienteRepoImpl.eliminar].
+ *
+ * @param repositorioClientes La instancia del repositorio para invocar
+ * [ClienteRepoImpl.eliminar].
+ */
 @Composable
 private fun paginaRemoverClientes(repositorioClientes: ClienteRepoImpl) {
 

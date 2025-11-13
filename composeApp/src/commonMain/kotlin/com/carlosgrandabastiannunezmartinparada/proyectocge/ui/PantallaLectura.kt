@@ -36,9 +36,18 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.Lectu
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.persistenciadatos.LecturaRepoImpl
 
 /**
- * Pantalla lectura
+ * Composable principal que actúa como host para la gestión de Lecturas de Consumo.
  *
- * @param repositorioLecturas
+ * Utiliza un [SingleChoiceSegmentedButtonRow] para la navegación interna
+ * entre dos sub-pantallas (páginas):
+ * 1. [pantallaNuevaLectura] (Índice 0, "Agregar")
+ * 2. [paginaListarLecturas] (Índice 1, "Mostrar")
+ *
+ * Delega la lógica de negocio (CRUD) a las sub-pantallas,
+ * pasándoles el [repositorioLecturas].
+ *
+ * @param repositorioLecturas La implementación del repositorio de lecturas,
+ * que se pasará a las sub-pantallas.
  */
 @Composable
 fun PantallaLectura(repositorioLecturas: LecturaRepoImpl) {
@@ -75,6 +84,20 @@ fun PantallaLectura(repositorioLecturas: LecturaRepoImpl) {
         }
     }
 
+/**
+ * Sub-pantalla privada (Composable) que renderiza el formulario para
+ * **agregar** (registrar) una nueva [LecturaConsumo].
+ *
+ * Gestiona el estado local de todos los campos de entrada
+ * (id, idMedidor, kwhLeidos, anio/mes de lectura, y fechas createdAt/updatedAt)
+ * utilizando [remember] y [mutableStateOf].
+ *
+ * Al hacer clic en el botón, convierte los `String` de entrada,
+ * crea el objeto [LecturaConsumo] y lo pasa a [LecturaRepoImpl.registrar].
+ *
+ * @param repositorioLecturas La instancia del repositorio para invocar
+ * [LecturaRepoImpl.registrar].
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun pantallaNuevaLectura(repositorioLecturas: LecturaRepoImpl) {
@@ -147,6 +170,20 @@ private fun pantallaNuevaLectura(repositorioLecturas: LecturaRepoImpl) {
             }
         }
     }
+
+/**
+ * Sub-pantalla privada (Composable) que muestra una lista de [LecturaConsumo].
+ *
+ * Proporciona controles de UI ([campoTextField], [cajaDespegable]) para
+ * filtrar la lista por ID de Medidor, Año y Mes.
+ *
+ * Obtiene los datos llamando a [LecturaRepoImpl.listarPorMedidor]
+ * (actualmente, la llamada parece usar solo el filtro de idMedidor)
+ * y los renderiza en un [LazyColumn] con una cabecera.
+ *
+ * @param repositorio La instancia del repositorio para invocar
+ * [LecturaRepoImpl.listarPorMedidor].
+ */
 @Composable
 private fun paginaListarLecturas(
     repositorio: LecturaRepoImpl
@@ -189,7 +226,7 @@ private fun paginaListarLecturas(
             Text("Kw/h Leidos", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
         }
         Spacer(Modifier.width(8.dp))
-        val repositorioLista = repositorio.listarPorMedidor(idMedidor, 0 ,0)
+        val repositorioLista = repositorio.listarPorMedidor(idMedidor, diaSeleccionado.toInt() ,mesSeleccionado.toInt())
         LazyColumn {
             items(repositorioLista) { l ->
                 Row(modifier = Modifier.width(1280.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {

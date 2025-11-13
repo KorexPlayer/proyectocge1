@@ -34,9 +34,7 @@ class DriverArchivoDesktop(private val directorioBase: String = "data") : Storag
     override fun keys(prefix: String): List<String> {
         val prefijoArchivo = prefix.replace(File.separatorChar, '_').replace(':', '_')
 
-        return directorioPadre.listFiles { _, name -> name.startsWith(prefijoArchivo) }
-            ?.map { it.name }
-            ?: emptyList()
+        return directorioPadre.listFiles { _, name -> name.startsWith(prefijoArchivo) }?.map { it.name } ?: emptyList()
     }
 
     override fun remove(key: String): Boolean {

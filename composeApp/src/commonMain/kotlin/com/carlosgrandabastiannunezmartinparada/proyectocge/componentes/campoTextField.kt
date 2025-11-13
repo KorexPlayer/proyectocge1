@@ -10,13 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * Campo text field
+ * Un Composable reutilizable que muestra un [OutlinedTextField] con una etiqueta
+ * y un [Spacer] fijo de 8.dp debajo para añadir espaciado vertical.
  *
- * @param label
- * @param value
- * @param onChange
- * @param modifier1
- * @receiver
+ * @param label El texto que se muestra como etiqueta (label) flotante en él [OutlinedTextField].
+ * @param value El valor de texto actual que se mostrará en el campo.
+ * @param onChange El callback (lambda) que se invoca cuando el usuario modifica el texto.
+ * Recibe el nuevo [String] como parámetro.
+ * @param modifier1 El [Modifier] de Compose que se aplicará directamente al [OutlinedTextField].
  */
 
 @Composable

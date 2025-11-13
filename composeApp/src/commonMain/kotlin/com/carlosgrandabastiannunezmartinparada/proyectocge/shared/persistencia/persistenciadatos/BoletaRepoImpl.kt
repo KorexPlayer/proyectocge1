@@ -10,19 +10,48 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.
 import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.persistencia.repositorios.ClienteRepositorio
 
 
+/**
+ * Implementación Singleton (object) del repositorio [BoletaRepositorio].
+ *
+ * Gestiona el almacenamiento en memoria (CRUD) de las [Boleta] y coordina
+ * la persistencia de datos (guardado/carga) y la vinculación con el [ClienteRepositorio].
+ */
 object BoletaRepoImpl : BoletaRepositorio {
+
+    /** Almacén en memoria (cache) de las boletas. */
     private val repositorio: MutableList<Boleta> = mutableListOf()
+    /** Dependencia del servicio de persistencia (ej. archivos, BD). */
     private var persistencia: PersistenciaDato? = null
+    /** Dependencia del repositorio de clientes, usado para vincular boletas. */
     private var clienteRepo: ClienteRepositorio? = null
+
+    /** Prefijo usado para las claves (keys) en el sistema de persistencia. */
     private const val PREFIJO_KEY = "boletas_"
+    /** Delimitador usado para la creación/lectura de boletas a String. */
     private const val DELIMITADOR = "::"
 
+    /**
+     * Inicializa el repositorio.
+     *
+     * Inyecta las dependencias necesarias (persistencia, repositorio de clientes)
+     * y ejecuta la carga inicial de datos desde la persistencia.
+     *
+     * @param persistencia La instancia del servicio de persistencia.
+     * @param clienteRepo La instancia del repositorio de clientes.
+     */
     fun init(persistencia: PersistenciaDato, clienteRepo: ClienteRepositorio) {
         this.persistencia = persistencia
         this.clienteRepo = clienteRepo
         cargarDatos()
     }
 
+    /**
+     * Carga todas las boletas desde el servicio de persistencia.
+     *
+     * Lee todas las claves que coinciden con [PREFIJO_KEY], las decodifica
+     * usando [textoABoleta] y las añade al repositorio en memoria,
+     * evitando duplicados.
+     */
     private fun cargarDatos() {
         persistencia?.list(PREFIJO_KEY)?.forEach { key ->
             val bytes = persistencia?.read(key)
@@ -39,6 +68,15 @@ object BoletaRepoImpl : BoletaRepositorio {
         }
     }
 
+    /**
+     * Serializa una instancia de [Boleta] a un formato [String] plano.
+     *
+     * Utiliza [DELIMITADOR] para concatenar todas las propiedades necesarias
+     * para la persistencia.
+     *
+     * @param b La [Boleta] a crear.
+     * @return Un [String] que representa la boleta.
+     */
     private fun boletaATexto(b: Boleta): String {
         return   b.id +
                 "$DELIMITADOR${b.createdAt.anioGet()}" +
@@ -65,6 +103,16 @@ object BoletaRepoImpl : BoletaRepositorio {
                 "$DELIMITADOR${b.getEstado()}"
     }
 
+    /**
+     * Pasa un [String] (leído desde persistencia) a una instancia de [Boleta].
+     *
+     * Divide el [data] usando [DELIMITADOR] y reconstruye el objeto [Boleta],
+     * incluyendo sus objetos anidados ([Cliente], [Date], [TarifaDetalle]).
+     *
+     * @param data El [String] serializado.
+     * @return Una nueva instancia de [Boleta], o `null` si el formato es inválido
+     * o faltan datos (parsing falla).
+     */
     private fun textoABoleta(data: String): Boleta? {
         val parts = data.split(DELIMITADOR)
         val id = parts.getOrNull(0)
@@ -102,10 +150,20 @@ object BoletaRepoImpl : BoletaRepositorio {
                 EstadoCliente.ACTIVO} else {EstadoCliente.INACTIVO}, tipoLugar), idCliente, anio, mes, kwhTotal,
             TarifaDetalle(detalleKwh, detalleSubtotal, detalleCargos, detalleIva, detalleTotal),
             when {(estado == "EMITIDA") -> {EstadoBoleta.EMITIDA} (estado == "ENVIADA") -> {EstadoBoleta.ENVIADA}
-                            (estado == "PAGADA") -> {EstadoBoleta.PAGADA} else -> {EstadoBoleta.ANULADA}}
+                (estado == "PAGADA") -> {EstadoBoleta.PAGADA} else -> {EstadoBoleta.ANULADA}}
         )
     }
 
+    /**
+     * Guarda una nueva [Boleta] en el repositorio y en persistencia.
+     *
+     * 1. Añade la boleta a la lista en memoria [repositorio].
+     * 2. La vincula al [Cliente] correspondiente a través de [clienteRepo].
+     * 3. La crea [boletaATexto] y la guarda usando [persistencia].
+     *
+     * @param b La [Boleta] a guardar.
+     * @return La [Boleta] guardada.
+     */
     override fun guardar(b: Boleta): Boleta {
         repositorio.add(b)
         clienteRepo?.obtenerPorRut(b.getIdCliente())?.agregarBoleta(b)
@@ -118,6 +176,17 @@ object BoletaRepoImpl : BoletaRepositorio {
         return b
     }
 
+    /**
+     * Busca y devuelve una [Boleta] específica.
+     *
+     * La búsqueda se realiza en memoria usando una combinación única de
+     * RUT del cliente, año y mes.
+     *
+     * @param rut El RUT del cliente.
+     * @param anio El año de la boleta.
+     * @param mes El mes de la boleta.
+     * @return La [Boleta] encontrada, o `null` si no existe.
+     */
     override fun obtener(
         rut: String,
         anio: Int,
@@ -133,6 +202,14 @@ object BoletaRepoImpl : BoletaRepositorio {
         return null
     }
 
+    /**
+     * Obtiene todas las boletas asociadas a un RUT de cliente específico.
+     *
+     * Filtra la lista en memoria [repositorio] por el RUT del cliente.
+     *
+     * @param rut El RUT del cliente a buscar.
+     * @return Una [List] de [Boleta] (puede estar vacía si no se encuentran).
+     */
     override fun listarPorCliente(rut: String): List<Boleta> {
         val listaPorCliente: MutableList<Boleta> = mutableListOf()
         for (boleta in repositorio) {

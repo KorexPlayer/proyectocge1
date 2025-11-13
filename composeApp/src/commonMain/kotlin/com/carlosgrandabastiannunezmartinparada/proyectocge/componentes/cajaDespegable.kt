@@ -13,13 +13,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.carlosgrandabastiannunezmartinparada.proyectocge.shared.dominio.EstadoCliente
+
+/**
+ * Una función que implementa un menú desplegable utilizando [ExposedDropdownMenuBox].
+ * * Este componente gestiona su propio estado de expansión y el valor seleccionado internamente,
+ * comenzando con los valores proporcionados. Devuelve el valor actualmente seleccionado.
+ *
+ * @param estadoEntregado El estado de expansión inicial del menú (true = expandido, false = contraído).
+ * @param valorEntregado El valor inicial seleccionado que se mostrará en él [OutlinedTextField].
+ * @param label El texto que se muestra como etiqueta (label) flotante en él [OutlinedTextField].
+ * @param listado La lista de [String] que representa las opciones a mostrar en el menú.
+ * @param modifier1 El [Modifier] de Compose que se aplicará al contenedor principal [ExposedDropdownMenuBox].
+ * @return El [String] correspondiente al valor actualmente seleccionado por el usuario en el menú.
+ */
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun cajaDespegable(estadoentregado: Boolean, valorEntregado: String, label: String, listado: List<String>, modifier1: Modifier = Modifier): String{
+fun cajaDespegable(estadoEntregado: Boolean, valorEntregado: String, label: String, listado: List<String>, modifier1: Modifier = Modifier): String{
 
-    var estado by remember { mutableStateOf(estadoentregado) }
+    var estado by remember { mutableStateOf(estadoEntregado) }
     var valorEntregado by remember { mutableStateOf(valorEntregado) }
 
 

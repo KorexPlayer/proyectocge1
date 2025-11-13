@@ -40,7 +40,19 @@ import com.carlosgrandabastiannunezmartinparada.proyectocge.ui.PantallaClientes
 import com.carlosgrandabastiannunezmartinparada.proyectocge.ui.PantallaLectura
 import com.carlosgrandabastiannunezmartinparada.proyectocge.ui.PantallaMedidor
 
-
+/**
+ * Composable principal de la aplicación que actúa como el "host" de navegación.
+ *
+ * Esta función es el punto de entrada de la UI. Se encarga de:
+ * 1. Inicializar todas las dependencias (repositorios y servicios) como Singletons.
+ * 2. Inyectar las dependencias necesarias (ej. `boletaService`).
+ * 3. Renderizar la barra de navegación principal (con [SingleChoiceSegmentedButtonRow])
+ * para cambiar entre las diferentes pantallas (Clientes, Boletas, Lecturas, Medidores).
+ * 4. Gestionar el estado del tema (claro/oscuro) con un [Switch].
+ * 5. Actuar como un router de UI, mostrando la pantalla seleccionada
+ * ([PantallaClientes], [PantallaBoleta], [PantallaLectura], o [PantallaMedidor])
+ * basado en el estado `selected`.
+ */
 @Composable
 fun paginaPrincipal() {
     val repositorioClientes = ClienteRepoImpl
